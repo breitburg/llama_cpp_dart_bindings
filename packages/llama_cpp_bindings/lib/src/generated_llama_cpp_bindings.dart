@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-/// Bindings for llama.h from llama.cpp
+/// Bindings for llama.h and gguf.h from llama.cpp
 class LlamaBindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
@@ -14315,6 +14315,983 @@ class LlamaBindings {
       'llama_perf_sampler_reset');
   late final _llama_perf_sampler_reset = _llama_perf_sampler_resetPtr
       .asFunction<void Function(ffi.Pointer<llama_sampler>)>();
+
+  ffi.Pointer<gguf_context> gguf_init_empty() {
+    return _gguf_init_empty();
+  }
+
+  late final _gguf_init_emptyPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<gguf_context> Function()>>(
+          'gguf_init_empty');
+  late final _gguf_init_empty =
+      _gguf_init_emptyPtr.asFunction<ffi.Pointer<gguf_context> Function()>();
+
+  ffi.Pointer<gguf_context> gguf_init_from_file(
+    ffi.Pointer<ffi.Char> fname,
+    gguf_init_params params,
+  ) {
+    return _gguf_init_from_file(
+      fname,
+      params,
+    );
+  }
+
+  late final _gguf_init_from_filePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<gguf_context> Function(
+              ffi.Pointer<ffi.Char>, gguf_init_params)>>('gguf_init_from_file');
+  late final _gguf_init_from_file = _gguf_init_from_filePtr.asFunction<
+      ffi.Pointer<gguf_context> Function(
+          ffi.Pointer<ffi.Char>, gguf_init_params)>();
+
+  void gguf_free(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_free(
+      ctx,
+    );
+  }
+
+  late final _gguf_freePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<gguf_context>)>>(
+          'gguf_free');
+  late final _gguf_free =
+      _gguf_freePtr.asFunction<void Function(ffi.Pointer<gguf_context>)>();
+
+  ffi.Pointer<ffi.Char> gguf_type_name(
+    gguf_type type,
+  ) {
+    return _gguf_type_name(
+      type.value,
+    );
+  }
+
+  late final _gguf_type_namePtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.UnsignedInt)>>(
+      'gguf_type_name');
+  late final _gguf_type_name =
+      _gguf_type_namePtr.asFunction<ffi.Pointer<ffi.Char> Function(int)>();
+
+  int gguf_get_version(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_get_version(
+      ctx,
+    );
+  }
+
+  late final _gguf_get_versionPtr = _lookup<
+          ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<gguf_context>)>>(
+      'gguf_get_version');
+  late final _gguf_get_version = _gguf_get_versionPtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>)>();
+
+  int gguf_get_alignment(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_get_alignment(
+      ctx,
+    );
+  }
+
+  late final _gguf_get_alignmentPtr =
+      _lookup<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<gguf_context>)>>(
+          'gguf_get_alignment');
+  late final _gguf_get_alignment = _gguf_get_alignmentPtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>)>();
+
+  int gguf_get_data_offset(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_get_data_offset(
+      ctx,
+    );
+  }
+
+  late final _gguf_get_data_offsetPtr =
+      _lookup<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<gguf_context>)>>(
+          'gguf_get_data_offset');
+  late final _gguf_get_data_offset = _gguf_get_data_offsetPtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>)>();
+
+  int gguf_get_n_kv(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_get_n_kv(
+      ctx,
+    );
+  }
+
+  late final _gguf_get_n_kvPtr = _lookup<
+          ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<gguf_context>)>>(
+      'gguf_get_n_kv');
+  late final _gguf_get_n_kv =
+      _gguf_get_n_kvPtr.asFunction<int Function(ffi.Pointer<gguf_context>)>();
+
+  int gguf_find_key(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+  ) {
+    return _gguf_find_key(
+      ctx,
+      key,
+    );
+  }
+
+  late final _gguf_find_keyPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int64 Function(ffi.Pointer<gguf_context>,
+              ffi.Pointer<ffi.Char>)>>('gguf_find_key');
+  late final _gguf_find_key = _gguf_find_keyPtr.asFunction<
+      int Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>)>();
+
+  ffi.Pointer<ffi.Char> gguf_get_key(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_key(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_keyPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_key');
+  late final _gguf_get_key = _gguf_get_keyPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<gguf_context>, int)>();
+
+  gguf_type gguf_get_kv_type(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return gguf_type.fromValue(_gguf_get_kv_type(
+      ctx,
+      key_id,
+    ));
+  }
+
+  late final _gguf_get_kv_typePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_kv_type');
+  late final _gguf_get_kv_type = _gguf_get_kv_typePtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  gguf_type gguf_get_arr_type(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return gguf_type.fromValue(_gguf_get_arr_type(
+      ctx,
+      key_id,
+    ));
+  }
+
+  late final _gguf_get_arr_typePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_arr_type');
+  late final _gguf_get_arr_type = _gguf_get_arr_typePtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_u8(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_u8(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_u8Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Uint8 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_u8');
+  late final _gguf_get_val_u8 = _gguf_get_val_u8Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_i8(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_i8(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_i8Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int8 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_i8');
+  late final _gguf_get_val_i8 = _gguf_get_val_i8Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_u16(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_u16(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_u16Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Uint16 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_u16');
+  late final _gguf_get_val_u16 = _gguf_get_val_u16Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_i16(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_i16(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_i16Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int16 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_i16');
+  late final _gguf_get_val_i16 = _gguf_get_val_i16Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_u32(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_u32(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_u32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Uint32 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_u32');
+  late final _gguf_get_val_u32 = _gguf_get_val_u32Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_i32(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_i32(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_i32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_i32');
+  late final _gguf_get_val_i32 = _gguf_get_val_i32Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  double gguf_get_val_f32(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_f32(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_f32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Float Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_f32');
+  late final _gguf_get_val_f32 = _gguf_get_val_f32Ptr
+      .asFunction<double Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_u64(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_u64(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_u64Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Uint64 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_u64');
+  late final _gguf_get_val_u64 = _gguf_get_val_u64Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_val_i64(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_i64(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_i64Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int64 Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_i64');
+  late final _gguf_get_val_i64 = _gguf_get_val_i64Ptr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  double gguf_get_val_f64(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_f64(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_f64Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Double Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_f64');
+  late final _gguf_get_val_f64 = _gguf_get_val_f64Ptr
+      .asFunction<double Function(ffi.Pointer<gguf_context>, int)>();
+
+  bool gguf_get_val_bool(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_bool(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_boolPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Bool Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_bool');
+  late final _gguf_get_val_bool = _gguf_get_val_boolPtr
+      .asFunction<bool Function(ffi.Pointer<gguf_context>, int)>();
+
+  ffi.Pointer<ffi.Char> gguf_get_val_str(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_str(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_strPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_str');
+  late final _gguf_get_val_str = _gguf_get_val_strPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<gguf_context>, int)>();
+
+  ffi.Pointer<ffi.Void> gguf_get_val_data(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_val_data(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_val_dataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_val_data');
+  late final _gguf_get_val_data = _gguf_get_val_dataPtr.asFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_arr_n(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_arr_n(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_arr_nPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Size Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_arr_n');
+  late final _gguf_get_arr_n = _gguf_get_arr_nPtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  ffi.Pointer<ffi.Void> gguf_get_arr_data(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+  ) {
+    return _gguf_get_arr_data(
+      ctx,
+      key_id,
+    );
+  }
+
+  late final _gguf_get_arr_dataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_arr_data');
+  late final _gguf_get_arr_data = _gguf_get_arr_dataPtr.asFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<gguf_context>, int)>();
+
+  ffi.Pointer<ffi.Char> gguf_get_arr_str(
+    ffi.Pointer<gguf_context> ctx,
+    int key_id,
+    int i,
+  ) {
+    return _gguf_get_arr_str(
+      ctx,
+      key_id,
+      i,
+    );
+  }
+
+  late final _gguf_get_arr_strPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(ffi.Pointer<gguf_context>, ffi.Int64,
+              ffi.Size)>>('gguf_get_arr_str');
+  late final _gguf_get_arr_str = _gguf_get_arr_strPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<gguf_context>, int, int)>();
+
+  int gguf_get_n_tensors(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_get_n_tensors(
+      ctx,
+    );
+  }
+
+  late final _gguf_get_n_tensorsPtr = _lookup<
+          ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<gguf_context>)>>(
+      'gguf_get_n_tensors');
+  late final _gguf_get_n_tensors = _gguf_get_n_tensorsPtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>)>();
+
+  int gguf_find_tensor(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> name,
+  ) {
+    return _gguf_find_tensor(
+      ctx,
+      name,
+    );
+  }
+
+  late final _gguf_find_tensorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int64 Function(ffi.Pointer<gguf_context>,
+              ffi.Pointer<ffi.Char>)>>('gguf_find_tensor');
+  late final _gguf_find_tensor = _gguf_find_tensorPtr.asFunction<
+      int Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>)>();
+
+  int gguf_get_tensor_offset(
+    ffi.Pointer<gguf_context> ctx,
+    int tensor_id,
+  ) {
+    return _gguf_get_tensor_offset(
+      ctx,
+      tensor_id,
+    );
+  }
+
+  late final _gguf_get_tensor_offsetPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Size Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_tensor_offset');
+  late final _gguf_get_tensor_offset = _gguf_get_tensor_offsetPtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  ffi.Pointer<ffi.Char> gguf_get_tensor_name(
+    ffi.Pointer<gguf_context> ctx,
+    int tensor_id,
+  ) {
+    return _gguf_get_tensor_name(
+      ctx,
+      tensor_id,
+    );
+  }
+
+  late final _gguf_get_tensor_namePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_tensor_name');
+  late final _gguf_get_tensor_name = _gguf_get_tensor_namePtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<gguf_context>, int)>();
+
+  ggml_type gguf_get_tensor_type(
+    ffi.Pointer<gguf_context> ctx,
+    int tensor_id,
+  ) {
+    return ggml_type.fromValue(_gguf_get_tensor_type(
+      ctx,
+      tensor_id,
+    ));
+  }
+
+  late final _gguf_get_tensor_typePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_tensor_type');
+  late final _gguf_get_tensor_type = _gguf_get_tensor_typePtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_get_tensor_size(
+    ffi.Pointer<gguf_context> ctx,
+    int tensor_id,
+  ) {
+    return _gguf_get_tensor_size(
+      ctx,
+      tensor_id,
+    );
+  }
+
+  late final _gguf_get_tensor_sizePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Size Function(
+              ffi.Pointer<gguf_context>, ffi.Int64)>>('gguf_get_tensor_size');
+  late final _gguf_get_tensor_size = _gguf_get_tensor_sizePtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>, int)>();
+
+  int gguf_remove_key(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+  ) {
+    return _gguf_remove_key(
+      ctx,
+      key,
+    );
+  }
+
+  late final _gguf_remove_keyPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int64 Function(ffi.Pointer<gguf_context>,
+              ffi.Pointer<ffi.Char>)>>('gguf_remove_key');
+  late final _gguf_remove_key = _gguf_remove_keyPtr.asFunction<
+      int Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>)>();
+
+  void gguf_set_val_u8(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_u8(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_u8Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Uint8)>>('gguf_set_val_u8');
+  late final _gguf_set_val_u8 = _gguf_set_val_u8Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_i8(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_i8(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_i8Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Int8)>>('gguf_set_val_i8');
+  late final _gguf_set_val_i8 = _gguf_set_val_i8Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_u16(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_u16(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_u16Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Uint16)>>('gguf_set_val_u16');
+  late final _gguf_set_val_u16 = _gguf_set_val_u16Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_i16(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_i16(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_i16Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Int16)>>('gguf_set_val_i16');
+  late final _gguf_set_val_i16 = _gguf_set_val_i16Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_u32(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_u32(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_u32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Uint32)>>('gguf_set_val_u32');
+  late final _gguf_set_val_u32 = _gguf_set_val_u32Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_i32(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_i32(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_i32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Int32)>>('gguf_set_val_i32');
+  late final _gguf_set_val_i32 = _gguf_set_val_i32Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_f32(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    double val,
+  ) {
+    return _gguf_set_val_f32(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_f32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Float)>>('gguf_set_val_f32');
+  late final _gguf_set_val_f32 = _gguf_set_val_f32Ptr.asFunction<
+      void Function(
+          ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, double)>();
+
+  void gguf_set_val_u64(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_u64(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_u64Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Uint64)>>('gguf_set_val_u64');
+  late final _gguf_set_val_u64 = _gguf_set_val_u64Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_i64(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    int val,
+  ) {
+    return _gguf_set_val_i64(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_i64Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Int64)>>('gguf_set_val_i64');
+  late final _gguf_set_val_i64 = _gguf_set_val_i64Ptr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_val_f64(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    double val,
+  ) {
+    return _gguf_set_val_f64(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_f64Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Double)>>('gguf_set_val_f64');
+  late final _gguf_set_val_f64 = _gguf_set_val_f64Ptr.asFunction<
+      void Function(
+          ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, double)>();
+
+  void gguf_set_val_bool(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    bool val,
+  ) {
+    return _gguf_set_val_bool(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_boolPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Bool)>>('gguf_set_val_bool');
+  late final _gguf_set_val_bool = _gguf_set_val_boolPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, bool)>();
+
+  void gguf_set_val_str(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    ffi.Pointer<ffi.Char> val,
+  ) {
+    return _gguf_set_val_str(
+      ctx,
+      key,
+      val,
+    );
+  }
+
+  late final _gguf_set_val_strPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Char>)>>('gguf_set_val_str');
+  late final _gguf_set_val_str = _gguf_set_val_strPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+          ffi.Pointer<ffi.Char>)>();
+
+  void gguf_set_arr_data(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    gguf_type type,
+    ffi.Pointer<ffi.Void> data,
+    int n,
+  ) {
+    return _gguf_set_arr_data(
+      ctx,
+      key,
+      type.value,
+      data,
+      n,
+    );
+  }
+
+  late final _gguf_set_arr_dataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<gguf_context>,
+              ffi.Pointer<ffi.Char>,
+              ffi.UnsignedInt,
+              ffi.Pointer<ffi.Void>,
+              ffi.Size)>>('gguf_set_arr_data');
+  late final _gguf_set_arr_data = _gguf_set_arr_dataPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int,
+          ffi.Pointer<ffi.Void>, int)>();
+
+  void gguf_set_arr_str(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> key,
+    ffi.Pointer<ffi.Pointer<ffi.Char>> data,
+    int n,
+  ) {
+    return _gguf_set_arr_str(
+      ctx,
+      key,
+      data,
+      n,
+    );
+  }
+
+  late final _gguf_set_arr_strPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<gguf_context>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Pointer<ffi.Char>>,
+              ffi.Size)>>('gguf_set_arr_str');
+  late final _gguf_set_arr_str = _gguf_set_arr_strPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+          ffi.Pointer<ffi.Pointer<ffi.Char>>, int)>();
+
+  void gguf_set_kv(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<gguf_context> src,
+  ) {
+    return _gguf_set_kv(
+      ctx,
+      src,
+    );
+  }
+
+  late final _gguf_set_kvPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>,
+              ffi.Pointer<gguf_context>)>>('gguf_set_kv');
+  late final _gguf_set_kv = _gguf_set_kvPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<gguf_context>)>();
+
+  void gguf_add_tensor(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ggml_tensor> tensor,
+  ) {
+    return _gguf_add_tensor(
+      ctx,
+      tensor,
+    );
+  }
+
+  late final _gguf_add_tensorPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>,
+              ffi.Pointer<ggml_tensor>)>>('gguf_add_tensor');
+  late final _gguf_add_tensor = _gguf_add_tensorPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ggml_tensor>)>();
+
+  void gguf_set_tensor_type(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> name,
+    ggml_type type,
+  ) {
+    return _gguf_set_tensor_type(
+      ctx,
+      name,
+      type.value,
+    );
+  }
+
+  late final _gguf_set_tensor_typePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.UnsignedInt)>>('gguf_set_tensor_type');
+  late final _gguf_set_tensor_type = _gguf_set_tensor_typePtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, int)>();
+
+  void gguf_set_tensor_data(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> name,
+    ffi.Pointer<ffi.Void> data,
+  ) {
+    return _gguf_set_tensor_data(
+      ctx,
+      name,
+      data,
+    );
+  }
+
+  late final _gguf_set_tensor_dataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Void>)>>('gguf_set_tensor_data');
+  late final _gguf_set_tensor_data = _gguf_set_tensor_dataPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+          ffi.Pointer<ffi.Void>)>();
+
+  bool gguf_write_to_file(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Char> fname,
+    bool only_meta,
+  ) {
+    return _gguf_write_to_file(
+      ctx,
+      fname,
+      only_meta,
+    );
+  }
+
+  late final _gguf_write_to_filePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Bool Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>,
+              ffi.Bool)>>('gguf_write_to_file');
+  late final _gguf_write_to_file = _gguf_write_to_filePtr.asFunction<
+      bool Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Char>, bool)>();
+
+  int gguf_get_meta_size(
+    ffi.Pointer<gguf_context> ctx,
+  ) {
+    return _gguf_get_meta_size(
+      ctx,
+    );
+  }
+
+  late final _gguf_get_meta_sizePtr =
+      _lookup<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<gguf_context>)>>(
+          'gguf_get_meta_size');
+  late final _gguf_get_meta_size = _gguf_get_meta_sizePtr
+      .asFunction<int Function(ffi.Pointer<gguf_context>)>();
+
+  void gguf_get_meta_data(
+    ffi.Pointer<gguf_context> ctx,
+    ffi.Pointer<ffi.Void> data,
+  ) {
+    return _gguf_get_meta_data(
+      ctx,
+      data,
+    );
+  }
+
+  late final _gguf_get_meta_dataPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<gguf_context>,
+              ffi.Pointer<ffi.Void>)>>('gguf_get_meta_data');
+  late final _gguf_get_meta_data = _gguf_get_meta_dataPtr.asFunction<
+      void Function(ffi.Pointer<gguf_context>, ffi.Pointer<ffi.Void>)>();
 }
 
 typedef ptrdiff_t = ffi.Long;
@@ -16307,6 +17284,53 @@ final class llama_perf_sampler_data extends ffi.Struct {
   external int n_sample;
 }
 
+enum gguf_type {
+  GGUF_TYPE_UINT8(0),
+  GGUF_TYPE_INT8(1),
+  GGUF_TYPE_UINT16(2),
+  GGUF_TYPE_INT16(3),
+  GGUF_TYPE_UINT32(4),
+  GGUF_TYPE_INT32(5),
+  GGUF_TYPE_FLOAT32(6),
+  GGUF_TYPE_BOOL(7),
+  GGUF_TYPE_STRING(8),
+  GGUF_TYPE_ARRAY(9),
+  GGUF_TYPE_UINT64(10),
+  GGUF_TYPE_INT64(11),
+  GGUF_TYPE_FLOAT64(12),
+  GGUF_TYPE_COUNT(13);
+
+  final int value;
+  const gguf_type(this.value);
+
+  static gguf_type fromValue(int value) => switch (value) {
+        0 => GGUF_TYPE_UINT8,
+        1 => GGUF_TYPE_INT8,
+        2 => GGUF_TYPE_UINT16,
+        3 => GGUF_TYPE_INT16,
+        4 => GGUF_TYPE_UINT32,
+        5 => GGUF_TYPE_INT32,
+        6 => GGUF_TYPE_FLOAT32,
+        7 => GGUF_TYPE_BOOL,
+        8 => GGUF_TYPE_STRING,
+        9 => GGUF_TYPE_ARRAY,
+        10 => GGUF_TYPE_UINT64,
+        11 => GGUF_TYPE_INT64,
+        12 => GGUF_TYPE_FLOAT64,
+        13 => GGUF_TYPE_COUNT,
+        _ => throw ArgumentError("Unknown value for gguf_type: $value"),
+      };
+}
+
+final class gguf_context extends ffi.Opaque {}
+
+final class gguf_init_params extends ffi.Struct {
+  @ffi.Bool()
+  external bool no_alloc;
+
+  external ffi.Pointer<ffi.Pointer<ggml_context>> ctx;
+}
+
 const int true1 = 1;
 
 const int false1 = 0;
@@ -16682,3 +17706,11 @@ const int LLAMA_SESSION_VERSION = 9;
 const int LLAMA_STATE_SEQ_MAGIC = 1734833009;
 
 const int LLAMA_STATE_SEQ_VERSION = 2;
+
+const String GGUF_MAGIC = 'GGUF';
+
+const int GGUF_VERSION = 3;
+
+const String GGUF_KEY_GENERAL_ALIGNMENT = 'general.alignment';
+
+const int GGUF_DEFAULT_ALIGNMENT = 32;
