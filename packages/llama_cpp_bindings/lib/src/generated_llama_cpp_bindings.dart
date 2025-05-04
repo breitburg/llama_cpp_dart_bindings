@@ -13771,6 +13771,7 @@ class LlamaBindings {
       .asFunction<ffi.Pointer<llama_sampler> Function()>();
 
   /// @details Top-K sampling described in academic paper "The Curious Case of Neural Text Degeneration" https://arxiv.org/abs/1904.09751
+  /// Setting k <= 0 makes this a noop
   ffi.Pointer<llama_sampler> llama_sampler_init_top_k(
     int k,
   ) {
@@ -15752,14 +15753,14 @@ enum ggml_type {
 
 enum ggml_prec {
   GGML_PREC_DEFAULT(0),
-  GGML_PREC_F32(1);
+  GGML_PREC_F32(10);
 
   final int value;
   const ggml_prec(this.value);
 
   static ggml_prec fromValue(int value) => switch (value) {
         0 => GGML_PREC_DEFAULT,
-        1 => GGML_PREC_F32,
+        10 => GGML_PREC_F32,
         _ => throw ArgumentError("Unknown value for ggml_prec: $value"),
       };
 }
