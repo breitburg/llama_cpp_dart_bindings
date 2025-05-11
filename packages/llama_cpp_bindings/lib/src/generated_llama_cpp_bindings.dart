@@ -2076,6 +2076,21 @@ class LlamaBindings {
   late final _ggml_is_contiguous_2 = _ggml_is_contiguous_2Ptr
       .asFunction<bool Function(ffi.Pointer<ggml_tensor>)>();
 
+  bool ggml_is_contiguously_allocated(
+    ffi.Pointer<ggml_tensor> tensor,
+  ) {
+    return _ggml_is_contiguously_allocated(
+      tensor,
+    );
+  }
+
+  late final _ggml_is_contiguously_allocatedPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ggml_tensor>)>>(
+          'ggml_is_contiguously_allocated');
+  late final _ggml_is_contiguously_allocated =
+      _ggml_is_contiguously_allocatedPtr
+          .asFunction<bool Function(ffi.Pointer<ggml_tensor>)>();
+
   bool ggml_is_contiguous_channels(
     ffi.Pointer<ggml_tensor> tensor,
   ) {
@@ -16735,7 +16750,8 @@ enum llama_vocab_pre_type {
   LLAMA_VOCAB_PRE_TYPE_TRILLION(31),
   LLAMA_VOCAB_PRE_TYPE_BAILINGMOE(32),
   LLAMA_VOCAB_PRE_TYPE_LLAMA4(33),
-  LLAMA_VOCAB_PRE_TYPE_PIXTRAL(34);
+  LLAMA_VOCAB_PRE_TYPE_PIXTRAL(34),
+  LLAMA_VOCAB_PRE_TYPE_SEED_CODER(35);
 
   final int value;
   const llama_vocab_pre_type(this.value);
@@ -16776,6 +16792,7 @@ enum llama_vocab_pre_type {
         32 => LLAMA_VOCAB_PRE_TYPE_BAILINGMOE,
         33 => LLAMA_VOCAB_PRE_TYPE_LLAMA4,
         34 => LLAMA_VOCAB_PRE_TYPE_PIXTRAL,
+        35 => LLAMA_VOCAB_PRE_TYPE_SEED_CODER,
         _ =>
           throw ArgumentError("Unknown value for llama_vocab_pre_type: $value"),
       };
@@ -17209,8 +17226,9 @@ final class llama_context_params extends ffi.Struct {
 
   ggml_type get type_v => ggml_type.fromValue(type_vAsInt);
 
-  @ffi.Bool()
-  external bool logits_all;
+  external ggml_abort_callback abort_callback;
+
+  external ffi.Pointer<ffi.Void> abort_callback_data;
 
   @ffi.Bool()
   external bool embeddings;
@@ -17223,10 +17241,6 @@ final class llama_context_params extends ffi.Struct {
 
   @ffi.Bool()
   external bool no_perf;
-
-  external ggml_abort_callback abort_callback;
-
-  external ffi.Pointer<ffi.Void> abort_callback_data;
 }
 
 final class llama_model_quantize_params extends ffi.Struct {
