@@ -3380,6 +3380,37 @@ class LlamaBindings {
       ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
           ffi.Pointer<ggml_tensor>, ffi.Pointer<ggml_tensor>)>();
 
+  ffi.Pointer<ggml_tensor> ggml_repeat_4d(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    int ne0,
+    int ne1,
+    int ne2,
+    int ne3,
+  ) {
+    return _ggml_repeat_4d(
+      ctx,
+      a,
+      ne0,
+      ne1,
+      ne2,
+      ne3,
+    );
+  }
+
+  late final _ggml_repeat_4dPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Int64,
+              ffi.Int64,
+              ffi.Int64,
+              ffi.Int64)>>('ggml_repeat_4d');
+  late final _ggml_repeat_4d = _ggml_repeat_4dPtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>, int, int, int, int)>();
+
   ffi.Pointer<ggml_tensor> ggml_repeat_back(
     ffi.Pointer<ggml_context> ctx,
     ffi.Pointer<ggml_tensor> a,
@@ -11740,6 +11771,16 @@ class LlamaBindings {
   late final _llama_max_devices =
       _llama_max_devicesPtr.asFunction<int Function()>();
 
+  int llama_max_parallel_sequences() {
+    return _llama_max_parallel_sequences();
+  }
+
+  late final _llama_max_parallel_sequencesPtr =
+      _lookup<ffi.NativeFunction<ffi.Size Function()>>(
+          'llama_max_parallel_sequences');
+  late final _llama_max_parallel_sequences =
+      _llama_max_parallel_sequencesPtr.asFunction<int Function()>();
+
   bool llama_supports_mmap() {
     return _llama_supports_mmap();
   }
@@ -12044,6 +12085,20 @@ class LlamaBindings {
       _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<llama_model>)>>(
           'llama_model_n_head_kv');
   late final _llama_model_n_head_kv = _llama_model_n_head_kvPtr
+      .asFunction<int Function(ffi.Pointer<llama_model>)>();
+
+  int llama_model_n_swa(
+    ffi.Pointer<llama_model> model,
+  ) {
+    return _llama_model_n_swa(
+      model,
+    );
+  }
+
+  late final _llama_model_n_swaPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<llama_model>)>>(
+          'llama_model_n_swa');
+  late final _llama_model_n_swa = _llama_model_n_swaPtr
       .asFunction<int Function(ffi.Pointer<llama_model>)>();
 
   double llama_model_rope_freq_scale_train(
@@ -16893,6 +16948,7 @@ final class ggml_type_traits extends ffi.Struct {
 }
 
 enum ggml_sched_priority {
+  GGML_SCHED_PRIO_LOW(-1),
   GGML_SCHED_PRIO_NORMAL(0),
   GGML_SCHED_PRIO_MEDIUM(1),
   GGML_SCHED_PRIO_HIGH(2),
@@ -16902,6 +16958,7 @@ enum ggml_sched_priority {
   const ggml_sched_priority(this.value);
 
   static ggml_sched_priority fromValue(int value) => switch (value) {
+        -1 => GGML_SCHED_PRIO_LOW,
         0 => GGML_SCHED_PRIO_NORMAL,
         1 => GGML_SCHED_PRIO_MEDIUM,
         2 => GGML_SCHED_PRIO_HIGH,
@@ -16918,7 +16975,7 @@ final class ggml_threadpool_params extends ffi.Struct {
   @ffi.Int()
   external int n_threads;
 
-  @ffi.UnsignedInt()
+  @ffi.Int()
   external int prioAsInt;
 
   ggml_sched_priority get prio => ggml_sched_priority.fromValue(prioAsInt);
