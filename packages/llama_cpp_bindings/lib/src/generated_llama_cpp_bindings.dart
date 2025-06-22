@@ -6540,6 +6540,37 @@ class LlamaBindings {
       ffi.Pointer<ggml_tensor> Function(
           ffi.Pointer<ggml_context>, ffi.Pointer<ggml_tensor>, int, int)>();
 
+  ffi.Pointer<ggml_tensor> ggml_roll(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    int shift0,
+    int shift1,
+    int shift2,
+    int shift3,
+  ) {
+    return _ggml_roll(
+      ctx,
+      a,
+      shift0,
+      shift1,
+      shift2,
+      shift3,
+    );
+  }
+
+  late final _ggml_rollPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Int,
+              ffi.Int,
+              ffi.Int,
+              ffi.Int)>>('ggml_roll');
+  late final _ggml_roll = _ggml_rollPtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>, int, int, int, int)>();
+
   ffi.Pointer<ggml_tensor> ggml_timestep_embedding(
     ffi.Pointer<ggml_context> ctx,
     ffi.Pointer<ggml_tensor> timesteps,
@@ -7794,47 +7825,6 @@ class LlamaBindings {
   late final _ggml_graph_get_grad_acc = _ggml_graph_get_grad_accPtr.asFunction<
       ffi.Pointer<ggml_tensor> Function(
           ffi.Pointer<ggml_cgraph>, ffi.Pointer<ggml_tensor>)>();
-
-  void ggml_graph_export(
-    ffi.Pointer<ggml_cgraph> cgraph,
-    ffi.Pointer<ffi.Char> fname,
-  ) {
-    return _ggml_graph_export(
-      cgraph,
-      fname,
-    );
-  }
-
-  late final _ggml_graph_exportPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<ggml_cgraph>,
-              ffi.Pointer<ffi.Char>)>>('ggml_graph_export');
-  late final _ggml_graph_export = _ggml_graph_exportPtr.asFunction<
-      void Function(ffi.Pointer<ggml_cgraph>, ffi.Pointer<ffi.Char>)>();
-
-  ffi.Pointer<ggml_cgraph> ggml_graph_import(
-    ffi.Pointer<ffi.Char> fname,
-    ffi.Pointer<ffi.Pointer<ggml_context>> ctx_data,
-    ffi.Pointer<ffi.Pointer<ggml_context>> ctx_eval,
-  ) {
-    return _ggml_graph_import(
-      fname,
-      ctx_data,
-      ctx_eval,
-    );
-  }
-
-  late final _ggml_graph_importPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ggml_cgraph> Function(
-              ffi.Pointer<ffi.Char>,
-              ffi.Pointer<ffi.Pointer<ggml_context>>,
-              ffi.Pointer<ffi.Pointer<ggml_context>>)>>('ggml_graph_import');
-  late final _ggml_graph_import = _ggml_graph_importPtr.asFunction<
-      ffi.Pointer<ggml_cgraph> Function(
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Pointer<ggml_context>>,
-          ffi.Pointer<ffi.Pointer<ggml_context>>)>();
 
   void ggml_graph_print(
     ffi.Pointer<ggml_cgraph> cgraph,
@@ -11959,20 +11949,20 @@ class LlamaBindings {
   late final _llama_get_model = _llama_get_modelPtr.asFunction<
       ffi.Pointer<llama_model> Function(ffi.Pointer<llama_context>)>();
 
-  ffi.Pointer<llama_kv_cache> llama_get_kv_self(
+  llama_memory_t llama_get_memory(
     ffi.Pointer<llama_context> ctx,
   ) {
-    return _llama_get_kv_self(
+    return _llama_get_memory(
       ctx,
     );
   }
 
-  late final _llama_get_kv_selfPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<llama_kv_cache> Function(
-              ffi.Pointer<llama_context>)>>('llama_get_kv_self');
-  late final _llama_get_kv_self = _llama_get_kv_selfPtr.asFunction<
-      ffi.Pointer<llama_kv_cache> Function(ffi.Pointer<llama_context>)>();
+  late final _llama_get_memoryPtr = _lookup<
+          ffi
+          .NativeFunction<llama_memory_t Function(ffi.Pointer<llama_context>)>>(
+      'llama_get_memory');
+  late final _llama_get_memory = _llama_get_memoryPtr
+      .asFunction<llama_memory_t Function(ffi.Pointer<llama_context>)>();
 
   llama_pooling_type llama_pooling_type1(
     ffi.Pointer<llama_context> ctx,
@@ -11987,6 +11977,21 @@ class LlamaBindings {
           'llama_pooling_type');
   late final _llama_pooling_type1 = _llama_pooling_type1Ptr
       .asFunction<int Function(ffi.Pointer<llama_context>)>();
+
+  ffi.Pointer<llama_kv_cache> llama_get_kv_self(
+    ffi.Pointer<llama_context> ctx,
+  ) {
+    return _llama_get_kv_self(
+      ctx,
+    );
+  }
+
+  late final _llama_get_kv_selfPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<llama_kv_cache> Function(
+              ffi.Pointer<llama_context>)>>('llama_get_kv_self');
+  late final _llama_get_kv_self = _llama_get_kv_selfPtr.asFunction<
+      ffi.Pointer<llama_kv_cache> Function(ffi.Pointer<llama_context>)>();
 
   ffi.Pointer<llama_vocab> llama_model_get_vocab(
     ffi.Pointer<llama_model> model,
@@ -12115,6 +12120,37 @@ class LlamaBindings {
   late final _llama_model_rope_freq_scale_train =
       _llama_model_rope_freq_scale_trainPtr
           .asFunction<double Function(ffi.Pointer<llama_model>)>();
+
+  int llama_model_n_cls_out(
+    ffi.Pointer<llama_model> model,
+  ) {
+    return _llama_model_n_cls_out(
+      model,
+    );
+  }
+
+  late final _llama_model_n_cls_outPtr = _lookup<
+          ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<llama_model>)>>(
+      'llama_model_n_cls_out');
+  late final _llama_model_n_cls_out = _llama_model_n_cls_outPtr
+      .asFunction<int Function(ffi.Pointer<llama_model>)>();
+
+  ffi.Pointer<ffi.Char> llama_model_cls_label(
+    ffi.Pointer<llama_model> model,
+    int i,
+  ) {
+    return _llama_model_cls_label(
+      model,
+      i,
+    );
+  }
+
+  late final _llama_model_cls_labelPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<llama_model>, ffi.Uint32)>>('llama_model_cls_label');
+  late final _llama_model_cls_label = _llama_model_cls_labelPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<llama_model>, int)>();
 
   llama_vocab_type llama_vocab_type1(
     ffi.Pointer<llama_vocab> vocab,
@@ -12496,6 +12532,174 @@ class LlamaBindings {
       _llama_apply_adapter_cvecPtr.asFunction<
           int Function(ffi.Pointer<llama_context>, ffi.Pointer<ffi.Float>, int,
               int, int, int)>();
+
+  void llama_memory_clear(
+    llama_memory_t mem,
+    bool data,
+  ) {
+    return _llama_memory_clear(
+      mem,
+      data,
+    );
+  }
+
+  late final _llama_memory_clearPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(llama_memory_t, ffi.Bool)>>(
+          'llama_memory_clear');
+  late final _llama_memory_clear =
+      _llama_memory_clearPtr.asFunction<void Function(llama_memory_t, bool)>();
+
+  bool llama_memory_seq_rm(
+    llama_memory_t mem,
+    int seq_id,
+    int p0,
+    int p1,
+  ) {
+    return _llama_memory_seq_rm(
+      mem,
+      seq_id,
+      p0,
+      p1,
+    );
+  }
+
+  late final _llama_memory_seq_rmPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Bool Function(llama_memory_t, llama_seq_id, llama_pos,
+              llama_pos)>>('llama_memory_seq_rm');
+  late final _llama_memory_seq_rm = _llama_memory_seq_rmPtr
+      .asFunction<bool Function(llama_memory_t, int, int, int)>();
+
+  void llama_memory_seq_cp(
+    llama_memory_t mem,
+    int seq_id_src,
+    int seq_id_dst,
+    int p0,
+    int p1,
+  ) {
+    return _llama_memory_seq_cp(
+      mem,
+      seq_id_src,
+      seq_id_dst,
+      p0,
+      p1,
+    );
+  }
+
+  late final _llama_memory_seq_cpPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(llama_memory_t, llama_seq_id, llama_seq_id,
+              llama_pos, llama_pos)>>('llama_memory_seq_cp');
+  late final _llama_memory_seq_cp = _llama_memory_seq_cpPtr
+      .asFunction<void Function(llama_memory_t, int, int, int, int)>();
+
+  void llama_memory_seq_keep(
+    llama_memory_t mem,
+    int seq_id,
+  ) {
+    return _llama_memory_seq_keep(
+      mem,
+      seq_id,
+    );
+  }
+
+  late final _llama_memory_seq_keepPtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(llama_memory_t, llama_seq_id)>>(
+      'llama_memory_seq_keep');
+  late final _llama_memory_seq_keep = _llama_memory_seq_keepPtr
+      .asFunction<void Function(llama_memory_t, int)>();
+
+  void llama_memory_seq_add(
+    llama_memory_t mem,
+    int seq_id,
+    int p0,
+    int p1,
+    int delta,
+  ) {
+    return _llama_memory_seq_add(
+      mem,
+      seq_id,
+      p0,
+      p1,
+      delta,
+    );
+  }
+
+  late final _llama_memory_seq_addPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(llama_memory_t, llama_seq_id, llama_pos, llama_pos,
+              llama_pos)>>('llama_memory_seq_add');
+  late final _llama_memory_seq_add = _llama_memory_seq_addPtr
+      .asFunction<void Function(llama_memory_t, int, int, int, int)>();
+
+  void llama_memory_seq_div(
+    llama_memory_t mem,
+    int seq_id,
+    int p0,
+    int p1,
+    int d,
+  ) {
+    return _llama_memory_seq_div(
+      mem,
+      seq_id,
+      p0,
+      p1,
+      d,
+    );
+  }
+
+  late final _llama_memory_seq_divPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(llama_memory_t, llama_seq_id, llama_pos, llama_pos,
+              ffi.Int)>>('llama_memory_seq_div');
+  late final _llama_memory_seq_div = _llama_memory_seq_divPtr
+      .asFunction<void Function(llama_memory_t, int, int, int, int)>();
+
+  int llama_memory_seq_pos_min(
+    llama_memory_t mem,
+    int seq_id,
+  ) {
+    return _llama_memory_seq_pos_min(
+      mem,
+      seq_id,
+    );
+  }
+
+  late final _llama_memory_seq_pos_minPtr = _lookup<
+          ffi.NativeFunction<llama_pos Function(llama_memory_t, llama_seq_id)>>(
+      'llama_memory_seq_pos_min');
+  late final _llama_memory_seq_pos_min = _llama_memory_seq_pos_minPtr
+      .asFunction<int Function(llama_memory_t, int)>();
+
+  int llama_memory_seq_pos_max(
+    llama_memory_t mem,
+    int seq_id,
+  ) {
+    return _llama_memory_seq_pos_max(
+      mem,
+      seq_id,
+    );
+  }
+
+  late final _llama_memory_seq_pos_maxPtr = _lookup<
+          ffi.NativeFunction<llama_pos Function(llama_memory_t, llama_seq_id)>>(
+      'llama_memory_seq_pos_max');
+  late final _llama_memory_seq_pos_max = _llama_memory_seq_pos_maxPtr
+      .asFunction<int Function(llama_memory_t, int)>();
+
+  bool llama_memory_can_shift(
+    llama_memory_t mem,
+  ) {
+    return _llama_memory_can_shift(
+      mem,
+    );
+  }
+
+  late final _llama_memory_can_shiftPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(llama_memory_t)>>(
+          'llama_memory_can_shift');
+  late final _llama_memory_can_shift =
+      _llama_memory_can_shiftPtr.asFunction<bool Function(llama_memory_t)>();
 
   int llama_kv_self_n_tokens(
     ffi.Pointer<llama_context> ctx,
@@ -13543,6 +13747,20 @@ class LlamaBindings {
   late final _llama_vocab_get_add_eos = _llama_vocab_get_add_eosPtr
       .asFunction<bool Function(ffi.Pointer<llama_vocab>)>();
 
+  bool llama_vocab_get_add_sep(
+    ffi.Pointer<llama_vocab> vocab,
+  ) {
+    return _llama_vocab_get_add_sep(
+      vocab,
+    );
+  }
+
+  late final _llama_vocab_get_add_sepPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<llama_vocab>)>>(
+          'llama_vocab_get_add_sep');
+  late final _llama_vocab_get_add_sep = _llama_vocab_get_add_sepPtr
+      .asFunction<bool Function(ffi.Pointer<llama_vocab>)>();
+
   int llama_vocab_fim_pre(
     ffi.Pointer<llama_vocab> vocab,
   ) {
@@ -13940,6 +14158,7 @@ class LlamaBindings {
   /// @param tokens The tokens pointer must be large enough to hold the resulting tokens.
   /// @return Returns the number of tokens on success, no more than n_tokens_max
   /// @return Returns a negative number on failure - the number of tokens that would have been returned
+  /// @return Returns INT32_MIN on overflow (e.g., tokenization result size exceeds int32_t limit)
   /// @param add_special Allow to add BOS and EOS tokens if model is configured to do so.
   /// @param parse_special Allow tokenizing special and/or control tokens which otherwise are not exposed and treated
   /// as plaintext. Does not insert a leading space.
@@ -16526,30 +16745,31 @@ enum ggml_op {
   GGML_OP_UPSCALE(56),
   GGML_OP_PAD(57),
   GGML_OP_PAD_REFLECT_1D(58),
-  GGML_OP_ARANGE(59),
-  GGML_OP_TIMESTEP_EMBEDDING(60),
-  GGML_OP_ARGSORT(61),
-  GGML_OP_LEAKY_RELU(62),
-  GGML_OP_FLASH_ATTN_EXT(63),
-  GGML_OP_FLASH_ATTN_BACK(64),
-  GGML_OP_SSM_CONV(65),
-  GGML_OP_SSM_SCAN(66),
-  GGML_OP_WIN_PART(67),
-  GGML_OP_WIN_UNPART(68),
-  GGML_OP_GET_REL_POS(69),
-  GGML_OP_ADD_REL_POS(70),
-  GGML_OP_RWKV_WKV6(71),
-  GGML_OP_GATED_LINEAR_ATTN(72),
-  GGML_OP_RWKV_WKV7(73),
-  GGML_OP_UNARY(74),
-  GGML_OP_MAP_CUSTOM1(75),
-  GGML_OP_MAP_CUSTOM2(76),
-  GGML_OP_MAP_CUSTOM3(77),
-  GGML_OP_CUSTOM(78),
-  GGML_OP_CROSS_ENTROPY_LOSS(79),
-  GGML_OP_CROSS_ENTROPY_LOSS_BACK(80),
-  GGML_OP_OPT_STEP_ADAMW(81),
-  GGML_OP_COUNT(82);
+  GGML_OP_ROLL(59),
+  GGML_OP_ARANGE(60),
+  GGML_OP_TIMESTEP_EMBEDDING(61),
+  GGML_OP_ARGSORT(62),
+  GGML_OP_LEAKY_RELU(63),
+  GGML_OP_FLASH_ATTN_EXT(64),
+  GGML_OP_FLASH_ATTN_BACK(65),
+  GGML_OP_SSM_CONV(66),
+  GGML_OP_SSM_SCAN(67),
+  GGML_OP_WIN_PART(68),
+  GGML_OP_WIN_UNPART(69),
+  GGML_OP_GET_REL_POS(70),
+  GGML_OP_ADD_REL_POS(71),
+  GGML_OP_RWKV_WKV6(72),
+  GGML_OP_GATED_LINEAR_ATTN(73),
+  GGML_OP_RWKV_WKV7(74),
+  GGML_OP_UNARY(75),
+  GGML_OP_MAP_CUSTOM1(76),
+  GGML_OP_MAP_CUSTOM2(77),
+  GGML_OP_MAP_CUSTOM3(78),
+  GGML_OP_CUSTOM(79),
+  GGML_OP_CROSS_ENTROPY_LOSS(80),
+  GGML_OP_CROSS_ENTROPY_LOSS_BACK(81),
+  GGML_OP_OPT_STEP_ADAMW(82),
+  GGML_OP_COUNT(83);
 
   final int value;
   const ggml_op(this.value);
@@ -16614,30 +16834,31 @@ enum ggml_op {
         56 => GGML_OP_UPSCALE,
         57 => GGML_OP_PAD,
         58 => GGML_OP_PAD_REFLECT_1D,
-        59 => GGML_OP_ARANGE,
-        60 => GGML_OP_TIMESTEP_EMBEDDING,
-        61 => GGML_OP_ARGSORT,
-        62 => GGML_OP_LEAKY_RELU,
-        63 => GGML_OP_FLASH_ATTN_EXT,
-        64 => GGML_OP_FLASH_ATTN_BACK,
-        65 => GGML_OP_SSM_CONV,
-        66 => GGML_OP_SSM_SCAN,
-        67 => GGML_OP_WIN_PART,
-        68 => GGML_OP_WIN_UNPART,
-        69 => GGML_OP_GET_REL_POS,
-        70 => GGML_OP_ADD_REL_POS,
-        71 => GGML_OP_RWKV_WKV6,
-        72 => GGML_OP_GATED_LINEAR_ATTN,
-        73 => GGML_OP_RWKV_WKV7,
-        74 => GGML_OP_UNARY,
-        75 => GGML_OP_MAP_CUSTOM1,
-        76 => GGML_OP_MAP_CUSTOM2,
-        77 => GGML_OP_MAP_CUSTOM3,
-        78 => GGML_OP_CUSTOM,
-        79 => GGML_OP_CROSS_ENTROPY_LOSS,
-        80 => GGML_OP_CROSS_ENTROPY_LOSS_BACK,
-        81 => GGML_OP_OPT_STEP_ADAMW,
-        82 => GGML_OP_COUNT,
+        59 => GGML_OP_ROLL,
+        60 => GGML_OP_ARANGE,
+        61 => GGML_OP_TIMESTEP_EMBEDDING,
+        62 => GGML_OP_ARGSORT,
+        63 => GGML_OP_LEAKY_RELU,
+        64 => GGML_OP_FLASH_ATTN_EXT,
+        65 => GGML_OP_FLASH_ATTN_BACK,
+        66 => GGML_OP_SSM_CONV,
+        67 => GGML_OP_SSM_SCAN,
+        68 => GGML_OP_WIN_PART,
+        69 => GGML_OP_WIN_UNPART,
+        70 => GGML_OP_GET_REL_POS,
+        71 => GGML_OP_ADD_REL_POS,
+        72 => GGML_OP_RWKV_WKV6,
+        73 => GGML_OP_GATED_LINEAR_ATTN,
+        74 => GGML_OP_RWKV_WKV7,
+        75 => GGML_OP_UNARY,
+        76 => GGML_OP_MAP_CUSTOM1,
+        77 => GGML_OP_MAP_CUSTOM2,
+        78 => GGML_OP_MAP_CUSTOM3,
+        79 => GGML_OP_CUSTOM,
+        80 => GGML_OP_CROSS_ENTROPY_LOSS,
+        81 => GGML_OP_CROSS_ENTROPY_LOSS_BACK,
+        82 => GGML_OP_OPT_STEP_ADAMW,
+        83 => GGML_OP_COUNT,
         _ => throw ArgumentError("Unknown value for ggml_op: $value"),
       };
 }
@@ -17437,6 +17658,10 @@ final class llama_sampler extends ffi.Struct {
 
   external llama_sampler_context_t ctx;
 }
+
+final class llama_memory_i extends ffi.Opaque {}
+
+typedef llama_memory_t = ffi.Pointer<llama_memory_i>;
 
 final class llama_kv_cache extends ffi.Opaque {}
 
