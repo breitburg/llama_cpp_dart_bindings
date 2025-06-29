@@ -2105,6 +2105,20 @@ class LlamaBindings {
   late final _ggml_is_contiguous_channels = _ggml_is_contiguous_channelsPtr
       .asFunction<bool Function(ffi.Pointer<ggml_tensor>)>();
 
+  bool ggml_is_contiguous_rows(
+    ffi.Pointer<ggml_tensor> tensor,
+  ) {
+    return _ggml_is_contiguous_rows(
+      tensor,
+    );
+  }
+
+  late final _ggml_is_contiguous_rowsPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ggml_tensor>)>>(
+          'ggml_is_contiguous_rows');
+  late final _ggml_is_contiguous_rows = _ggml_is_contiguous_rowsPtr
+      .asFunction<bool Function(ffi.Pointer<ggml_tensor>)>();
+
   bool ggml_are_same_shape(
     ffi.Pointer<ggml_tensor> t0,
     ffi.Pointer<ggml_tensor> t1,
@@ -5030,6 +5044,34 @@ class LlamaBindings {
               ffi.Pointer<ggml_tensor>,
               ffi.Pointer<ggml_tensor>)>>('ggml_get_rows_back');
   late final _ggml_get_rows_back = _ggml_get_rows_backPtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(
+          ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>,
+          ffi.Pointer<ggml_tensor>,
+          ffi.Pointer<ggml_tensor>)>();
+
+  ffi.Pointer<ggml_tensor> ggml_set_rows(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    ffi.Pointer<ggml_tensor> b,
+    ffi.Pointer<ggml_tensor> c,
+  ) {
+    return _ggml_set_rows(
+      ctx,
+      a,
+      b,
+      c,
+    );
+  }
+
+  late final _ggml_set_rowsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>)>>('ggml_set_rows');
+  late final _ggml_set_rows = _ggml_set_rowsPtr.asFunction<
       ffi.Pointer<ggml_tensor> Function(
           ffi.Pointer<ggml_context>,
           ffi.Pointer<ggml_tensor>,
@@ -10587,6 +10629,15 @@ class LlamaBindings {
   late final _ggml_cpu_has_vxe =
       _ggml_cpu_has_vxePtr.asFunction<int Function()>();
 
+  int ggml_cpu_has_nnpa() {
+    return _ggml_cpu_has_nnpa();
+  }
+
+  late final _ggml_cpu_has_nnpaPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>('ggml_cpu_has_nnpa');
+  late final _ggml_cpu_has_nnpa =
+      _ggml_cpu_has_nnpaPtr.asFunction<int Function()>();
+
   int ggml_cpu_has_wasm_simd() {
     return _ggml_cpu_has_wasm_simd();
   }
@@ -10717,6 +10768,25 @@ class LlamaBindings {
           'ggml_backend_cpu_reg');
   late final _ggml_backend_cpu_reg =
       _ggml_backend_cpu_regPtr.asFunction<ggml_backend_reg_t Function()>();
+
+  void ggml_cpu_fp32_to_fp32(
+    ffi.Pointer<ffi.Float> arg0,
+    ffi.Pointer<ffi.Float> arg1,
+    int arg2,
+  ) {
+    return _ggml_cpu_fp32_to_fp32(
+      arg0,
+      arg1,
+      arg2,
+    );
+  }
+
+  late final _ggml_cpu_fp32_to_fp32Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<ffi.Float>, ffi.Pointer<ffi.Float>,
+              ffi.Int64)>>('ggml_cpu_fp32_to_fp32');
+  late final _ggml_cpu_fp32_to_fp32 = _ggml_cpu_fp32_to_fp32Ptr.asFunction<
+      void Function(ffi.Pointer<ffi.Float>, ffi.Pointer<ffi.Float>, int)>();
 
   void ggml_cpu_fp32_to_fp16(
     ffi.Pointer<ffi.Float> arg0,
@@ -16726,50 +16796,51 @@ enum ggml_op {
   GGML_OP_TRANSPOSE(37),
   GGML_OP_GET_ROWS(38),
   GGML_OP_GET_ROWS_BACK(39),
-  GGML_OP_DIAG(40),
-  GGML_OP_DIAG_MASK_INF(41),
-  GGML_OP_DIAG_MASK_ZERO(42),
-  GGML_OP_SOFT_MAX(43),
-  GGML_OP_SOFT_MAX_BACK(44),
-  GGML_OP_ROPE(45),
-  GGML_OP_ROPE_BACK(46),
-  GGML_OP_CLAMP(47),
-  GGML_OP_CONV_TRANSPOSE_1D(48),
-  GGML_OP_IM2COL(49),
-  GGML_OP_IM2COL_BACK(50),
-  GGML_OP_CONV_2D_DW(51),
-  GGML_OP_CONV_TRANSPOSE_2D(52),
-  GGML_OP_POOL_1D(53),
-  GGML_OP_POOL_2D(54),
-  GGML_OP_POOL_2D_BACK(55),
-  GGML_OP_UPSCALE(56),
-  GGML_OP_PAD(57),
-  GGML_OP_PAD_REFLECT_1D(58),
-  GGML_OP_ROLL(59),
-  GGML_OP_ARANGE(60),
-  GGML_OP_TIMESTEP_EMBEDDING(61),
-  GGML_OP_ARGSORT(62),
-  GGML_OP_LEAKY_RELU(63),
-  GGML_OP_FLASH_ATTN_EXT(64),
-  GGML_OP_FLASH_ATTN_BACK(65),
-  GGML_OP_SSM_CONV(66),
-  GGML_OP_SSM_SCAN(67),
-  GGML_OP_WIN_PART(68),
-  GGML_OP_WIN_UNPART(69),
-  GGML_OP_GET_REL_POS(70),
-  GGML_OP_ADD_REL_POS(71),
-  GGML_OP_RWKV_WKV6(72),
-  GGML_OP_GATED_LINEAR_ATTN(73),
-  GGML_OP_RWKV_WKV7(74),
-  GGML_OP_UNARY(75),
-  GGML_OP_MAP_CUSTOM1(76),
-  GGML_OP_MAP_CUSTOM2(77),
-  GGML_OP_MAP_CUSTOM3(78),
-  GGML_OP_CUSTOM(79),
-  GGML_OP_CROSS_ENTROPY_LOSS(80),
-  GGML_OP_CROSS_ENTROPY_LOSS_BACK(81),
-  GGML_OP_OPT_STEP_ADAMW(82),
-  GGML_OP_COUNT(83);
+  GGML_OP_SET_ROWS(40),
+  GGML_OP_DIAG(41),
+  GGML_OP_DIAG_MASK_INF(42),
+  GGML_OP_DIAG_MASK_ZERO(43),
+  GGML_OP_SOFT_MAX(44),
+  GGML_OP_SOFT_MAX_BACK(45),
+  GGML_OP_ROPE(46),
+  GGML_OP_ROPE_BACK(47),
+  GGML_OP_CLAMP(48),
+  GGML_OP_CONV_TRANSPOSE_1D(49),
+  GGML_OP_IM2COL(50),
+  GGML_OP_IM2COL_BACK(51),
+  GGML_OP_CONV_2D_DW(52),
+  GGML_OP_CONV_TRANSPOSE_2D(53),
+  GGML_OP_POOL_1D(54),
+  GGML_OP_POOL_2D(55),
+  GGML_OP_POOL_2D_BACK(56),
+  GGML_OP_UPSCALE(57),
+  GGML_OP_PAD(58),
+  GGML_OP_PAD_REFLECT_1D(59),
+  GGML_OP_ROLL(60),
+  GGML_OP_ARANGE(61),
+  GGML_OP_TIMESTEP_EMBEDDING(62),
+  GGML_OP_ARGSORT(63),
+  GGML_OP_LEAKY_RELU(64),
+  GGML_OP_FLASH_ATTN_EXT(65),
+  GGML_OP_FLASH_ATTN_BACK(66),
+  GGML_OP_SSM_CONV(67),
+  GGML_OP_SSM_SCAN(68),
+  GGML_OP_WIN_PART(69),
+  GGML_OP_WIN_UNPART(70),
+  GGML_OP_GET_REL_POS(71),
+  GGML_OP_ADD_REL_POS(72),
+  GGML_OP_RWKV_WKV6(73),
+  GGML_OP_GATED_LINEAR_ATTN(74),
+  GGML_OP_RWKV_WKV7(75),
+  GGML_OP_UNARY(76),
+  GGML_OP_MAP_CUSTOM1(77),
+  GGML_OP_MAP_CUSTOM2(78),
+  GGML_OP_MAP_CUSTOM3(79),
+  GGML_OP_CUSTOM(80),
+  GGML_OP_CROSS_ENTROPY_LOSS(81),
+  GGML_OP_CROSS_ENTROPY_LOSS_BACK(82),
+  GGML_OP_OPT_STEP_ADAMW(83),
+  GGML_OP_COUNT(84);
 
   final int value;
   const ggml_op(this.value);
@@ -16815,50 +16886,51 @@ enum ggml_op {
         37 => GGML_OP_TRANSPOSE,
         38 => GGML_OP_GET_ROWS,
         39 => GGML_OP_GET_ROWS_BACK,
-        40 => GGML_OP_DIAG,
-        41 => GGML_OP_DIAG_MASK_INF,
-        42 => GGML_OP_DIAG_MASK_ZERO,
-        43 => GGML_OP_SOFT_MAX,
-        44 => GGML_OP_SOFT_MAX_BACK,
-        45 => GGML_OP_ROPE,
-        46 => GGML_OP_ROPE_BACK,
-        47 => GGML_OP_CLAMP,
-        48 => GGML_OP_CONV_TRANSPOSE_1D,
-        49 => GGML_OP_IM2COL,
-        50 => GGML_OP_IM2COL_BACK,
-        51 => GGML_OP_CONV_2D_DW,
-        52 => GGML_OP_CONV_TRANSPOSE_2D,
-        53 => GGML_OP_POOL_1D,
-        54 => GGML_OP_POOL_2D,
-        55 => GGML_OP_POOL_2D_BACK,
-        56 => GGML_OP_UPSCALE,
-        57 => GGML_OP_PAD,
-        58 => GGML_OP_PAD_REFLECT_1D,
-        59 => GGML_OP_ROLL,
-        60 => GGML_OP_ARANGE,
-        61 => GGML_OP_TIMESTEP_EMBEDDING,
-        62 => GGML_OP_ARGSORT,
-        63 => GGML_OP_LEAKY_RELU,
-        64 => GGML_OP_FLASH_ATTN_EXT,
-        65 => GGML_OP_FLASH_ATTN_BACK,
-        66 => GGML_OP_SSM_CONV,
-        67 => GGML_OP_SSM_SCAN,
-        68 => GGML_OP_WIN_PART,
-        69 => GGML_OP_WIN_UNPART,
-        70 => GGML_OP_GET_REL_POS,
-        71 => GGML_OP_ADD_REL_POS,
-        72 => GGML_OP_RWKV_WKV6,
-        73 => GGML_OP_GATED_LINEAR_ATTN,
-        74 => GGML_OP_RWKV_WKV7,
-        75 => GGML_OP_UNARY,
-        76 => GGML_OP_MAP_CUSTOM1,
-        77 => GGML_OP_MAP_CUSTOM2,
-        78 => GGML_OP_MAP_CUSTOM3,
-        79 => GGML_OP_CUSTOM,
-        80 => GGML_OP_CROSS_ENTROPY_LOSS,
-        81 => GGML_OP_CROSS_ENTROPY_LOSS_BACK,
-        82 => GGML_OP_OPT_STEP_ADAMW,
-        83 => GGML_OP_COUNT,
+        40 => GGML_OP_SET_ROWS,
+        41 => GGML_OP_DIAG,
+        42 => GGML_OP_DIAG_MASK_INF,
+        43 => GGML_OP_DIAG_MASK_ZERO,
+        44 => GGML_OP_SOFT_MAX,
+        45 => GGML_OP_SOFT_MAX_BACK,
+        46 => GGML_OP_ROPE,
+        47 => GGML_OP_ROPE_BACK,
+        48 => GGML_OP_CLAMP,
+        49 => GGML_OP_CONV_TRANSPOSE_1D,
+        50 => GGML_OP_IM2COL,
+        51 => GGML_OP_IM2COL_BACK,
+        52 => GGML_OP_CONV_2D_DW,
+        53 => GGML_OP_CONV_TRANSPOSE_2D,
+        54 => GGML_OP_POOL_1D,
+        55 => GGML_OP_POOL_2D,
+        56 => GGML_OP_POOL_2D_BACK,
+        57 => GGML_OP_UPSCALE,
+        58 => GGML_OP_PAD,
+        59 => GGML_OP_PAD_REFLECT_1D,
+        60 => GGML_OP_ROLL,
+        61 => GGML_OP_ARANGE,
+        62 => GGML_OP_TIMESTEP_EMBEDDING,
+        63 => GGML_OP_ARGSORT,
+        64 => GGML_OP_LEAKY_RELU,
+        65 => GGML_OP_FLASH_ATTN_EXT,
+        66 => GGML_OP_FLASH_ATTN_BACK,
+        67 => GGML_OP_SSM_CONV,
+        68 => GGML_OP_SSM_SCAN,
+        69 => GGML_OP_WIN_PART,
+        70 => GGML_OP_WIN_UNPART,
+        71 => GGML_OP_GET_REL_POS,
+        72 => GGML_OP_ADD_REL_POS,
+        73 => GGML_OP_RWKV_WKV6,
+        74 => GGML_OP_GATED_LINEAR_ATTN,
+        75 => GGML_OP_RWKV_WKV7,
+        76 => GGML_OP_UNARY,
+        77 => GGML_OP_MAP_CUSTOM1,
+        78 => GGML_OP_MAP_CUSTOM2,
+        79 => GGML_OP_MAP_CUSTOM3,
+        80 => GGML_OP_CUSTOM,
+        81 => GGML_OP_CROSS_ENTROPY_LOSS,
+        82 => GGML_OP_CROSS_ENTROPY_LOSS_BACK,
+        83 => GGML_OP_OPT_STEP_ADAMW,
+        84 => GGML_OP_COUNT,
         _ => throw ArgumentError("Unknown value for ggml_op: $value"),
       };
 }
@@ -18267,6 +18339,8 @@ final class llama_model_quantize_params extends ffi.Struct {
   external ffi.Pointer<ffi.Void> kv_overrides;
 
   external ffi.Pointer<ffi.Void> tensor_types;
+
+  external ffi.Pointer<ffi.Void> prune_layers;
 }
 
 final class llama_logit_bias extends ffi.Struct {
