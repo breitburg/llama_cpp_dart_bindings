@@ -4752,6 +4752,56 @@ class LlamaBindings {
       ffi.Pointer<ggml_tensor> Function(
           ffi.Pointer<ggml_context>, ffi.Pointer<ggml_tensor>, double)>();
 
+  ffi.Pointer<ggml_tensor> ggml_scale_bias(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    double s,
+    double b,
+  ) {
+    return _ggml_scale_bias(
+      ctx,
+      a,
+      s,
+      b,
+    );
+  }
+
+  late final _ggml_scale_biasPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Float,
+              ffi.Float)>>('ggml_scale_bias');
+  late final _ggml_scale_bias = _ggml_scale_biasPtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>, double, double)>();
+
+  ffi.Pointer<ggml_tensor> ggml_scale_bias_inplace(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    double s,
+    double b,
+  ) {
+    return _ggml_scale_bias_inplace(
+      ctx,
+      a,
+      s,
+      b,
+    );
+  }
+
+  late final _ggml_scale_bias_inplacePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Float,
+              ffi.Float)>>('ggml_scale_bias_inplace');
+  late final _ggml_scale_bias_inplace = _ggml_scale_bias_inplacePtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>, double, double)>();
+
   ffi.Pointer<ggml_tensor> ggml_set(
     ffi.Pointer<ggml_context> ctx,
     ffi.Pointer<ggml_tensor> a,
@@ -18302,89 +18352,6 @@ enum llama_vocab_type {
         4 => LLAMA_VOCAB_TYPE_UGM,
         5 => LLAMA_VOCAB_TYPE_RWKV,
         _ => throw ArgumentError("Unknown value for llama_vocab_type: $value"),
-      };
-}
-
-enum llama_vocab_pre_type {
-  LLAMA_VOCAB_PRE_TYPE_DEFAULT(0),
-  LLAMA_VOCAB_PRE_TYPE_LLAMA3(1),
-  LLAMA_VOCAB_PRE_TYPE_DEEPSEEK_LLM(2),
-  LLAMA_VOCAB_PRE_TYPE_DEEPSEEK_CODER(3),
-  LLAMA_VOCAB_PRE_TYPE_FALCON(4),
-  LLAMA_VOCAB_PRE_TYPE_MPT(5),
-  LLAMA_VOCAB_PRE_TYPE_STARCODER(6),
-  LLAMA_VOCAB_PRE_TYPE_GPT2(7),
-  LLAMA_VOCAB_PRE_TYPE_REFACT(8),
-  LLAMA_VOCAB_PRE_TYPE_COMMAND_R(9),
-  LLAMA_VOCAB_PRE_TYPE_STABLELM2(10),
-  LLAMA_VOCAB_PRE_TYPE_QWEN2(11),
-  LLAMA_VOCAB_PRE_TYPE_OLMO(12),
-  LLAMA_VOCAB_PRE_TYPE_DBRX(13),
-  LLAMA_VOCAB_PRE_TYPE_SMAUG(14),
-  LLAMA_VOCAB_PRE_TYPE_PORO(15),
-  LLAMA_VOCAB_PRE_TYPE_CHATGLM3(16),
-  LLAMA_VOCAB_PRE_TYPE_CHATGLM4(17),
-  LLAMA_VOCAB_PRE_TYPE_VIKING(18),
-  LLAMA_VOCAB_PRE_TYPE_JAIS(19),
-  LLAMA_VOCAB_PRE_TYPE_TEKKEN(20),
-  LLAMA_VOCAB_PRE_TYPE_SMOLLM(21),
-  LLAMA_VOCAB_PRE_TYPE_CODESHELL(22),
-  LLAMA_VOCAB_PRE_TYPE_BLOOM(23),
-  LLAMA_VOCAB_PRE_TYPE_GPT3_FINNISH(24),
-  LLAMA_VOCAB_PRE_TYPE_EXAONE(25),
-  LLAMA_VOCAB_PRE_TYPE_CHAMELEON(26),
-  LLAMA_VOCAB_PRE_TYPE_MINERVA(27),
-  LLAMA_VOCAB_PRE_TYPE_DEEPSEEK3_LLM(28),
-  LLAMA_VOCAB_PRE_TYPE_GPT4O(29),
-  LLAMA_VOCAB_PRE_TYPE_SUPERBPE(30),
-  LLAMA_VOCAB_PRE_TYPE_TRILLION(31),
-  LLAMA_VOCAB_PRE_TYPE_BAILINGMOE(32),
-  LLAMA_VOCAB_PRE_TYPE_LLAMA4(33),
-  LLAMA_VOCAB_PRE_TYPE_PIXTRAL(34),
-  LLAMA_VOCAB_PRE_TYPE_SEED_CODER(35);
-
-  final int value;
-  const llama_vocab_pre_type(this.value);
-
-  static llama_vocab_pre_type fromValue(int value) => switch (value) {
-        0 => LLAMA_VOCAB_PRE_TYPE_DEFAULT,
-        1 => LLAMA_VOCAB_PRE_TYPE_LLAMA3,
-        2 => LLAMA_VOCAB_PRE_TYPE_DEEPSEEK_LLM,
-        3 => LLAMA_VOCAB_PRE_TYPE_DEEPSEEK_CODER,
-        4 => LLAMA_VOCAB_PRE_TYPE_FALCON,
-        5 => LLAMA_VOCAB_PRE_TYPE_MPT,
-        6 => LLAMA_VOCAB_PRE_TYPE_STARCODER,
-        7 => LLAMA_VOCAB_PRE_TYPE_GPT2,
-        8 => LLAMA_VOCAB_PRE_TYPE_REFACT,
-        9 => LLAMA_VOCAB_PRE_TYPE_COMMAND_R,
-        10 => LLAMA_VOCAB_PRE_TYPE_STABLELM2,
-        11 => LLAMA_VOCAB_PRE_TYPE_QWEN2,
-        12 => LLAMA_VOCAB_PRE_TYPE_OLMO,
-        13 => LLAMA_VOCAB_PRE_TYPE_DBRX,
-        14 => LLAMA_VOCAB_PRE_TYPE_SMAUG,
-        15 => LLAMA_VOCAB_PRE_TYPE_PORO,
-        16 => LLAMA_VOCAB_PRE_TYPE_CHATGLM3,
-        17 => LLAMA_VOCAB_PRE_TYPE_CHATGLM4,
-        18 => LLAMA_VOCAB_PRE_TYPE_VIKING,
-        19 => LLAMA_VOCAB_PRE_TYPE_JAIS,
-        20 => LLAMA_VOCAB_PRE_TYPE_TEKKEN,
-        21 => LLAMA_VOCAB_PRE_TYPE_SMOLLM,
-        22 => LLAMA_VOCAB_PRE_TYPE_CODESHELL,
-        23 => LLAMA_VOCAB_PRE_TYPE_BLOOM,
-        24 => LLAMA_VOCAB_PRE_TYPE_GPT3_FINNISH,
-        25 => LLAMA_VOCAB_PRE_TYPE_EXAONE,
-        26 => LLAMA_VOCAB_PRE_TYPE_CHAMELEON,
-        27 => LLAMA_VOCAB_PRE_TYPE_MINERVA,
-        28 => LLAMA_VOCAB_PRE_TYPE_DEEPSEEK3_LLM,
-        29 => LLAMA_VOCAB_PRE_TYPE_GPT4O,
-        30 => LLAMA_VOCAB_PRE_TYPE_SUPERBPE,
-        31 => LLAMA_VOCAB_PRE_TYPE_TRILLION,
-        32 => LLAMA_VOCAB_PRE_TYPE_BAILINGMOE,
-        33 => LLAMA_VOCAB_PRE_TYPE_LLAMA4,
-        34 => LLAMA_VOCAB_PRE_TYPE_PIXTRAL,
-        35 => LLAMA_VOCAB_PRE_TYPE_SEED_CODER,
-        _ =>
-          throw ArgumentError("Unknown value for llama_vocab_pre_type: $value"),
       };
 }
 
