@@ -14334,6 +14334,20 @@ class LlamaBindings {
   late final _llama_vocab_pad =
       _llama_vocab_padPtr.asFunction<int Function(ffi.Pointer<llama_vocab>)>();
 
+  int llama_vocab_mask(
+    ffi.Pointer<llama_vocab> vocab,
+  ) {
+    return _llama_vocab_mask(
+      vocab,
+    );
+  }
+
+  late final _llama_vocab_maskPtr = _lookup<
+          ffi.NativeFunction<llama_token Function(ffi.Pointer<llama_vocab>)>>(
+      'llama_vocab_mask');
+  late final _llama_vocab_mask =
+      _llama_vocab_maskPtr.asFunction<int Function(ffi.Pointer<llama_vocab>)>();
+
   bool llama_vocab_get_add_bos(
     ffi.Pointer<llama_vocab> vocab,
   ) {
@@ -18339,7 +18353,8 @@ enum llama_vocab_type {
   LLAMA_VOCAB_TYPE_BPE(2),
   LLAMA_VOCAB_TYPE_WPM(3),
   LLAMA_VOCAB_TYPE_UGM(4),
-  LLAMA_VOCAB_TYPE_RWKV(5);
+  LLAMA_VOCAB_TYPE_RWKV(5),
+  LLAMA_VOCAB_TYPE_PLAMO2(6);
 
   final int value;
   const llama_vocab_type(this.value);
@@ -18351,6 +18366,7 @@ enum llama_vocab_type {
         3 => LLAMA_VOCAB_TYPE_WPM,
         4 => LLAMA_VOCAB_TYPE_UGM,
         5 => LLAMA_VOCAB_TYPE_RWKV,
+        6 => LLAMA_VOCAB_TYPE_PLAMO2,
         _ => throw ArgumentError("Unknown value for llama_vocab_type: $value"),
       };
 }
@@ -18804,6 +18820,9 @@ final class llama_context_params extends ffi.Struct {
 
   @ffi.Bool()
   external bool swa_full;
+
+  @ffi.Bool()
+  external bool kv_unified;
 }
 
 final class llama_model_quantize_params extends ffi.Struct {
@@ -18890,6 +18909,9 @@ final class llama_perf_context_data extends ffi.Struct {
 
   @ffi.Int32()
   external int n_eval;
+
+  @ffi.Int32()
+  external int n_reused;
 }
 
 final class llama_perf_sampler_data extends ffi.Struct {
