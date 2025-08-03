@@ -13008,6 +13008,20 @@ class LlamaBindings {
   late final _llama_model_is_recurrent = _llama_model_is_recurrentPtr
       .asFunction<bool Function(ffi.Pointer<llama_model>)>();
 
+  bool llama_model_is_diffusion(
+    ffi.Pointer<llama_model> model,
+  ) {
+    return _llama_model_is_diffusion(
+      model,
+    );
+  }
+
+  late final _llama_model_is_diffusionPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<llama_model>)>>(
+          'llama_model_is_diffusion');
+  late final _llama_model_is_diffusion = _llama_model_is_diffusionPtr
+      .asFunction<bool Function(ffi.Pointer<llama_model>)>();
+
   int llama_model_quantize(
     ffi.Pointer<ffi.Char> fname_inp,
     ffi.Pointer<ffi.Char> fname_out,
@@ -18722,6 +18736,9 @@ final class llama_model_params extends ffi.Struct {
 
   @ffi.Bool()
   external bool check_tensors;
+
+  @ffi.Bool()
+  external bool use_extra_bufts;
 }
 
 final class llama_context_params extends ffi.Struct {
