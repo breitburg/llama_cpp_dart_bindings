@@ -2912,6 +2912,34 @@ class LlamaBindings {
       ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
           ffi.Pointer<ggml_tensor>, ffi.Pointer<ggml_tensor>, int)>();
 
+  ffi.Pointer<ggml_tensor> ggml_add_id(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    ffi.Pointer<ggml_tensor> b,
+    ffi.Pointer<ggml_tensor> ids,
+  ) {
+    return _ggml_add_id(
+      ctx,
+      a,
+      b,
+      ids,
+    );
+  }
+
+  late final _ggml_add_idPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>)>>('ggml_add_id');
+  late final _ggml_add_id = _ggml_add_idPtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(
+          ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>,
+          ffi.Pointer<ggml_tensor>,
+          ffi.Pointer<ggml_tensor>)>();
+
   ffi.Pointer<ggml_tensor> ggml_add1(
     ffi.Pointer<ggml_context> ctx,
     ffi.Pointer<ggml_tensor> a,
@@ -4428,6 +4456,38 @@ class LlamaBindings {
       ffi.Pointer<ggml_tensor> Function(ffi.Pointer<ggml_context>,
           ffi.Pointer<ggml_tensor>, ffi.Pointer<ggml_tensor>)>();
 
+  ffi.Pointer<ggml_tensor> ggml_swiglu_oai(
+    ffi.Pointer<ggml_context> ctx,
+    ffi.Pointer<ggml_tensor> a,
+    ffi.Pointer<ggml_tensor> b,
+    double alpha,
+    double limit,
+  ) {
+    return _ggml_swiglu_oai(
+      ctx,
+      a,
+      b,
+      alpha,
+      limit,
+    );
+  }
+
+  late final _ggml_swiglu_oaiPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ggml_tensor> Function(
+              ffi.Pointer<ggml_context>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>,
+              ffi.Float,
+              ffi.Float)>>('ggml_swiglu_oai');
+  late final _ggml_swiglu_oai = _ggml_swiglu_oaiPtr.asFunction<
+      ffi.Pointer<ggml_tensor> Function(
+          ffi.Pointer<ggml_context>,
+          ffi.Pointer<ggml_tensor>,
+          ffi.Pointer<ggml_tensor>,
+          double,
+          double)>();
+
   ffi.Pointer<ggml_tensor> ggml_norm(
     ffi.Pointer<ggml_context> ctx,
     ffi.Pointer<ggml_tensor> a,
@@ -5704,6 +5764,23 @@ class LlamaBindings {
           ffi.Pointer<ggml_tensor>,
           double,
           double)>();
+
+  void ggml_soft_max_add_sinks(
+    ffi.Pointer<ggml_tensor> a,
+    ffi.Pointer<ggml_tensor> sinks,
+  ) {
+    return _ggml_soft_max_add_sinks(
+      a,
+      sinks,
+    );
+  }
+
+  late final _ggml_soft_max_add_sinksPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>)>>('ggml_soft_max_add_sinks');
+  late final _ggml_soft_max_add_sinks = _ggml_soft_max_add_sinksPtr.asFunction<
+      void Function(ffi.Pointer<ggml_tensor>, ffi.Pointer<ggml_tensor>)>();
 
   ffi.Pointer<ggml_tensor> ggml_soft_max_ext_back(
     ffi.Pointer<ggml_context> ctx,
@@ -7312,6 +7389,24 @@ class LlamaBindings {
       'ggml_flash_attn_ext_get_prec');
   late final _ggml_flash_attn_ext_get_prec = _ggml_flash_attn_ext_get_precPtr
       .asFunction<int Function(ffi.Pointer<ggml_tensor>)>();
+
+  void ggml_flash_attn_ext_add_sinks(
+    ffi.Pointer<ggml_tensor> a,
+    ffi.Pointer<ggml_tensor> sinks,
+  ) {
+    return _ggml_flash_attn_ext_add_sinks(
+      a,
+      sinks,
+    );
+  }
+
+  late final _ggml_flash_attn_ext_add_sinksPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<ggml_tensor>,
+              ffi.Pointer<ggml_tensor>)>>('ggml_flash_attn_ext_add_sinks');
+  late final _ggml_flash_attn_ext_add_sinks =
+      _ggml_flash_attn_ext_add_sinksPtr.asFunction<
+          void Function(ffi.Pointer<ggml_tensor>, ffi.Pointer<ggml_tensor>)>();
 
   ffi.Pointer<ggml_tensor> ggml_flash_attn_back(
     ffi.Pointer<ggml_context> ctx,
@@ -17220,7 +17315,8 @@ enum ggml_type {
   GGML_TYPE_BF16(30),
   GGML_TYPE_TQ1_0(34),
   GGML_TYPE_TQ2_0(35),
-  GGML_TYPE_COUNT(39);
+  GGML_TYPE_MXFP4(39),
+  GGML_TYPE_COUNT(40);
 
   final int value;
   const ggml_type(this.value);
@@ -17257,7 +17353,8 @@ enum ggml_type {
         30 => GGML_TYPE_BF16,
         34 => GGML_TYPE_TQ1_0,
         35 => GGML_TYPE_TQ2_0,
-        39 => GGML_TYPE_COUNT,
+        39 => GGML_TYPE_MXFP4,
+        40 => GGML_TYPE_COUNT,
         _ => throw ArgumentError("Unknown value for ggml_type: $value"),
       };
 }
@@ -17300,7 +17397,8 @@ enum ggml_ftype {
   GGML_FTYPE_MOSTLY_IQ2_S(21),
   GGML_FTYPE_MOSTLY_IQ4_XS(22),
   GGML_FTYPE_MOSTLY_IQ1_M(23),
-  GGML_FTYPE_MOSTLY_BF16(24);
+  GGML_FTYPE_MOSTLY_BF16(24),
+  GGML_FTYPE_MOSTLY_MXFP4(25);
 
   final int value;
   const ggml_ftype(this.value);
@@ -17330,6 +17428,7 @@ enum ggml_ftype {
         22 => GGML_FTYPE_MOSTLY_IQ4_XS,
         23 => GGML_FTYPE_MOSTLY_IQ1_M,
         24 => GGML_FTYPE_MOSTLY_BF16,
+        25 => GGML_FTYPE_MOSTLY_MXFP4,
         _ => throw ArgumentError("Unknown value for ggml_ftype: $value"),
       };
 }
@@ -17338,90 +17437,91 @@ enum ggml_op {
   GGML_OP_NONE(0),
   GGML_OP_DUP(1),
   GGML_OP_ADD(2),
-  GGML_OP_ADD1(3),
-  GGML_OP_ACC(4),
-  GGML_OP_SUB(5),
-  GGML_OP_MUL(6),
-  GGML_OP_DIV(7),
-  GGML_OP_SQR(8),
-  GGML_OP_SQRT(9),
-  GGML_OP_LOG(10),
-  GGML_OP_SIN(11),
-  GGML_OP_COS(12),
-  GGML_OP_SUM(13),
-  GGML_OP_SUM_ROWS(14),
-  GGML_OP_MEAN(15),
-  GGML_OP_ARGMAX(16),
-  GGML_OP_COUNT_EQUAL(17),
-  GGML_OP_REPEAT(18),
-  GGML_OP_REPEAT_BACK(19),
-  GGML_OP_CONCAT(20),
-  GGML_OP_SILU_BACK(21),
-  GGML_OP_NORM(22),
-  GGML_OP_RMS_NORM(23),
-  GGML_OP_RMS_NORM_BACK(24),
-  GGML_OP_GROUP_NORM(25),
-  GGML_OP_L2_NORM(26),
-  GGML_OP_MUL_MAT(27),
-  GGML_OP_MUL_MAT_ID(28),
-  GGML_OP_OUT_PROD(29),
-  GGML_OP_SCALE(30),
-  GGML_OP_SET(31),
-  GGML_OP_CPY(32),
-  GGML_OP_CONT(33),
-  GGML_OP_RESHAPE(34),
-  GGML_OP_VIEW(35),
-  GGML_OP_PERMUTE(36),
-  GGML_OP_TRANSPOSE(37),
-  GGML_OP_GET_ROWS(38),
-  GGML_OP_GET_ROWS_BACK(39),
-  GGML_OP_SET_ROWS(40),
-  GGML_OP_DIAG(41),
-  GGML_OP_DIAG_MASK_INF(42),
-  GGML_OP_DIAG_MASK_ZERO(43),
-  GGML_OP_SOFT_MAX(44),
-  GGML_OP_SOFT_MAX_BACK(45),
-  GGML_OP_ROPE(46),
-  GGML_OP_ROPE_BACK(47),
-  GGML_OP_CLAMP(48),
-  GGML_OP_CONV_TRANSPOSE_1D(49),
-  GGML_OP_IM2COL(50),
-  GGML_OP_IM2COL_BACK(51),
-  GGML_OP_CONV_2D(52),
-  GGML_OP_CONV_2D_DW(53),
-  GGML_OP_CONV_TRANSPOSE_2D(54),
-  GGML_OP_POOL_1D(55),
-  GGML_OP_POOL_2D(56),
-  GGML_OP_POOL_2D_BACK(57),
-  GGML_OP_UPSCALE(58),
-  GGML_OP_PAD(59),
-  GGML_OP_PAD_REFLECT_1D(60),
-  GGML_OP_ROLL(61),
-  GGML_OP_ARANGE(62),
-  GGML_OP_TIMESTEP_EMBEDDING(63),
-  GGML_OP_ARGSORT(64),
-  GGML_OP_LEAKY_RELU(65),
-  GGML_OP_FLASH_ATTN_EXT(66),
-  GGML_OP_FLASH_ATTN_BACK(67),
-  GGML_OP_SSM_CONV(68),
-  GGML_OP_SSM_SCAN(69),
-  GGML_OP_WIN_PART(70),
-  GGML_OP_WIN_UNPART(71),
-  GGML_OP_GET_REL_POS(72),
-  GGML_OP_ADD_REL_POS(73),
-  GGML_OP_RWKV_WKV6(74),
-  GGML_OP_GATED_LINEAR_ATTN(75),
-  GGML_OP_RWKV_WKV7(76),
-  GGML_OP_UNARY(77),
-  GGML_OP_MAP_CUSTOM1(78),
-  GGML_OP_MAP_CUSTOM2(79),
-  GGML_OP_MAP_CUSTOM3(80),
-  GGML_OP_CUSTOM(81),
-  GGML_OP_CROSS_ENTROPY_LOSS(82),
-  GGML_OP_CROSS_ENTROPY_LOSS_BACK(83),
-  GGML_OP_OPT_STEP_ADAMW(84),
-  GGML_OP_GLU(85),
-  GGML_OP_COUNT(86);
+  GGML_OP_ADD_ID(3),
+  GGML_OP_ADD1(4),
+  GGML_OP_ACC(5),
+  GGML_OP_SUB(6),
+  GGML_OP_MUL(7),
+  GGML_OP_DIV(8),
+  GGML_OP_SQR(9),
+  GGML_OP_SQRT(10),
+  GGML_OP_LOG(11),
+  GGML_OP_SIN(12),
+  GGML_OP_COS(13),
+  GGML_OP_SUM(14),
+  GGML_OP_SUM_ROWS(15),
+  GGML_OP_MEAN(16),
+  GGML_OP_ARGMAX(17),
+  GGML_OP_COUNT_EQUAL(18),
+  GGML_OP_REPEAT(19),
+  GGML_OP_REPEAT_BACK(20),
+  GGML_OP_CONCAT(21),
+  GGML_OP_SILU_BACK(22),
+  GGML_OP_NORM(23),
+  GGML_OP_RMS_NORM(24),
+  GGML_OP_RMS_NORM_BACK(25),
+  GGML_OP_GROUP_NORM(26),
+  GGML_OP_L2_NORM(27),
+  GGML_OP_MUL_MAT(28),
+  GGML_OP_MUL_MAT_ID(29),
+  GGML_OP_OUT_PROD(30),
+  GGML_OP_SCALE(31),
+  GGML_OP_SET(32),
+  GGML_OP_CPY(33),
+  GGML_OP_CONT(34),
+  GGML_OP_RESHAPE(35),
+  GGML_OP_VIEW(36),
+  GGML_OP_PERMUTE(37),
+  GGML_OP_TRANSPOSE(38),
+  GGML_OP_GET_ROWS(39),
+  GGML_OP_GET_ROWS_BACK(40),
+  GGML_OP_SET_ROWS(41),
+  GGML_OP_DIAG(42),
+  GGML_OP_DIAG_MASK_INF(43),
+  GGML_OP_DIAG_MASK_ZERO(44),
+  GGML_OP_SOFT_MAX(45),
+  GGML_OP_SOFT_MAX_BACK(46),
+  GGML_OP_ROPE(47),
+  GGML_OP_ROPE_BACK(48),
+  GGML_OP_CLAMP(49),
+  GGML_OP_CONV_TRANSPOSE_1D(50),
+  GGML_OP_IM2COL(51),
+  GGML_OP_IM2COL_BACK(52),
+  GGML_OP_CONV_2D(53),
+  GGML_OP_CONV_2D_DW(54),
+  GGML_OP_CONV_TRANSPOSE_2D(55),
+  GGML_OP_POOL_1D(56),
+  GGML_OP_POOL_2D(57),
+  GGML_OP_POOL_2D_BACK(58),
+  GGML_OP_UPSCALE(59),
+  GGML_OP_PAD(60),
+  GGML_OP_PAD_REFLECT_1D(61),
+  GGML_OP_ROLL(62),
+  GGML_OP_ARANGE(63),
+  GGML_OP_TIMESTEP_EMBEDDING(64),
+  GGML_OP_ARGSORT(65),
+  GGML_OP_LEAKY_RELU(66),
+  GGML_OP_FLASH_ATTN_EXT(67),
+  GGML_OP_FLASH_ATTN_BACK(68),
+  GGML_OP_SSM_CONV(69),
+  GGML_OP_SSM_SCAN(70),
+  GGML_OP_WIN_PART(71),
+  GGML_OP_WIN_UNPART(72),
+  GGML_OP_GET_REL_POS(73),
+  GGML_OP_ADD_REL_POS(74),
+  GGML_OP_RWKV_WKV6(75),
+  GGML_OP_GATED_LINEAR_ATTN(76),
+  GGML_OP_RWKV_WKV7(77),
+  GGML_OP_UNARY(78),
+  GGML_OP_MAP_CUSTOM1(79),
+  GGML_OP_MAP_CUSTOM2(80),
+  GGML_OP_MAP_CUSTOM3(81),
+  GGML_OP_CUSTOM(82),
+  GGML_OP_CROSS_ENTROPY_LOSS(83),
+  GGML_OP_CROSS_ENTROPY_LOSS_BACK(84),
+  GGML_OP_OPT_STEP_ADAMW(85),
+  GGML_OP_GLU(86),
+  GGML_OP_COUNT(87);
 
   final int value;
   const ggml_op(this.value);
@@ -17430,90 +17530,91 @@ enum ggml_op {
         0 => GGML_OP_NONE,
         1 => GGML_OP_DUP,
         2 => GGML_OP_ADD,
-        3 => GGML_OP_ADD1,
-        4 => GGML_OP_ACC,
-        5 => GGML_OP_SUB,
-        6 => GGML_OP_MUL,
-        7 => GGML_OP_DIV,
-        8 => GGML_OP_SQR,
-        9 => GGML_OP_SQRT,
-        10 => GGML_OP_LOG,
-        11 => GGML_OP_SIN,
-        12 => GGML_OP_COS,
-        13 => GGML_OP_SUM,
-        14 => GGML_OP_SUM_ROWS,
-        15 => GGML_OP_MEAN,
-        16 => GGML_OP_ARGMAX,
-        17 => GGML_OP_COUNT_EQUAL,
-        18 => GGML_OP_REPEAT,
-        19 => GGML_OP_REPEAT_BACK,
-        20 => GGML_OP_CONCAT,
-        21 => GGML_OP_SILU_BACK,
-        22 => GGML_OP_NORM,
-        23 => GGML_OP_RMS_NORM,
-        24 => GGML_OP_RMS_NORM_BACK,
-        25 => GGML_OP_GROUP_NORM,
-        26 => GGML_OP_L2_NORM,
-        27 => GGML_OP_MUL_MAT,
-        28 => GGML_OP_MUL_MAT_ID,
-        29 => GGML_OP_OUT_PROD,
-        30 => GGML_OP_SCALE,
-        31 => GGML_OP_SET,
-        32 => GGML_OP_CPY,
-        33 => GGML_OP_CONT,
-        34 => GGML_OP_RESHAPE,
-        35 => GGML_OP_VIEW,
-        36 => GGML_OP_PERMUTE,
-        37 => GGML_OP_TRANSPOSE,
-        38 => GGML_OP_GET_ROWS,
-        39 => GGML_OP_GET_ROWS_BACK,
-        40 => GGML_OP_SET_ROWS,
-        41 => GGML_OP_DIAG,
-        42 => GGML_OP_DIAG_MASK_INF,
-        43 => GGML_OP_DIAG_MASK_ZERO,
-        44 => GGML_OP_SOFT_MAX,
-        45 => GGML_OP_SOFT_MAX_BACK,
-        46 => GGML_OP_ROPE,
-        47 => GGML_OP_ROPE_BACK,
-        48 => GGML_OP_CLAMP,
-        49 => GGML_OP_CONV_TRANSPOSE_1D,
-        50 => GGML_OP_IM2COL,
-        51 => GGML_OP_IM2COL_BACK,
-        52 => GGML_OP_CONV_2D,
-        53 => GGML_OP_CONV_2D_DW,
-        54 => GGML_OP_CONV_TRANSPOSE_2D,
-        55 => GGML_OP_POOL_1D,
-        56 => GGML_OP_POOL_2D,
-        57 => GGML_OP_POOL_2D_BACK,
-        58 => GGML_OP_UPSCALE,
-        59 => GGML_OP_PAD,
-        60 => GGML_OP_PAD_REFLECT_1D,
-        61 => GGML_OP_ROLL,
-        62 => GGML_OP_ARANGE,
-        63 => GGML_OP_TIMESTEP_EMBEDDING,
-        64 => GGML_OP_ARGSORT,
-        65 => GGML_OP_LEAKY_RELU,
-        66 => GGML_OP_FLASH_ATTN_EXT,
-        67 => GGML_OP_FLASH_ATTN_BACK,
-        68 => GGML_OP_SSM_CONV,
-        69 => GGML_OP_SSM_SCAN,
-        70 => GGML_OP_WIN_PART,
-        71 => GGML_OP_WIN_UNPART,
-        72 => GGML_OP_GET_REL_POS,
-        73 => GGML_OP_ADD_REL_POS,
-        74 => GGML_OP_RWKV_WKV6,
-        75 => GGML_OP_GATED_LINEAR_ATTN,
-        76 => GGML_OP_RWKV_WKV7,
-        77 => GGML_OP_UNARY,
-        78 => GGML_OP_MAP_CUSTOM1,
-        79 => GGML_OP_MAP_CUSTOM2,
-        80 => GGML_OP_MAP_CUSTOM3,
-        81 => GGML_OP_CUSTOM,
-        82 => GGML_OP_CROSS_ENTROPY_LOSS,
-        83 => GGML_OP_CROSS_ENTROPY_LOSS_BACK,
-        84 => GGML_OP_OPT_STEP_ADAMW,
-        85 => GGML_OP_GLU,
-        86 => GGML_OP_COUNT,
+        3 => GGML_OP_ADD_ID,
+        4 => GGML_OP_ADD1,
+        5 => GGML_OP_ACC,
+        6 => GGML_OP_SUB,
+        7 => GGML_OP_MUL,
+        8 => GGML_OP_DIV,
+        9 => GGML_OP_SQR,
+        10 => GGML_OP_SQRT,
+        11 => GGML_OP_LOG,
+        12 => GGML_OP_SIN,
+        13 => GGML_OP_COS,
+        14 => GGML_OP_SUM,
+        15 => GGML_OP_SUM_ROWS,
+        16 => GGML_OP_MEAN,
+        17 => GGML_OP_ARGMAX,
+        18 => GGML_OP_COUNT_EQUAL,
+        19 => GGML_OP_REPEAT,
+        20 => GGML_OP_REPEAT_BACK,
+        21 => GGML_OP_CONCAT,
+        22 => GGML_OP_SILU_BACK,
+        23 => GGML_OP_NORM,
+        24 => GGML_OP_RMS_NORM,
+        25 => GGML_OP_RMS_NORM_BACK,
+        26 => GGML_OP_GROUP_NORM,
+        27 => GGML_OP_L2_NORM,
+        28 => GGML_OP_MUL_MAT,
+        29 => GGML_OP_MUL_MAT_ID,
+        30 => GGML_OP_OUT_PROD,
+        31 => GGML_OP_SCALE,
+        32 => GGML_OP_SET,
+        33 => GGML_OP_CPY,
+        34 => GGML_OP_CONT,
+        35 => GGML_OP_RESHAPE,
+        36 => GGML_OP_VIEW,
+        37 => GGML_OP_PERMUTE,
+        38 => GGML_OP_TRANSPOSE,
+        39 => GGML_OP_GET_ROWS,
+        40 => GGML_OP_GET_ROWS_BACK,
+        41 => GGML_OP_SET_ROWS,
+        42 => GGML_OP_DIAG,
+        43 => GGML_OP_DIAG_MASK_INF,
+        44 => GGML_OP_DIAG_MASK_ZERO,
+        45 => GGML_OP_SOFT_MAX,
+        46 => GGML_OP_SOFT_MAX_BACK,
+        47 => GGML_OP_ROPE,
+        48 => GGML_OP_ROPE_BACK,
+        49 => GGML_OP_CLAMP,
+        50 => GGML_OP_CONV_TRANSPOSE_1D,
+        51 => GGML_OP_IM2COL,
+        52 => GGML_OP_IM2COL_BACK,
+        53 => GGML_OP_CONV_2D,
+        54 => GGML_OP_CONV_2D_DW,
+        55 => GGML_OP_CONV_TRANSPOSE_2D,
+        56 => GGML_OP_POOL_1D,
+        57 => GGML_OP_POOL_2D,
+        58 => GGML_OP_POOL_2D_BACK,
+        59 => GGML_OP_UPSCALE,
+        60 => GGML_OP_PAD,
+        61 => GGML_OP_PAD_REFLECT_1D,
+        62 => GGML_OP_ROLL,
+        63 => GGML_OP_ARANGE,
+        64 => GGML_OP_TIMESTEP_EMBEDDING,
+        65 => GGML_OP_ARGSORT,
+        66 => GGML_OP_LEAKY_RELU,
+        67 => GGML_OP_FLASH_ATTN_EXT,
+        68 => GGML_OP_FLASH_ATTN_BACK,
+        69 => GGML_OP_SSM_CONV,
+        70 => GGML_OP_SSM_SCAN,
+        71 => GGML_OP_WIN_PART,
+        72 => GGML_OP_WIN_UNPART,
+        73 => GGML_OP_GET_REL_POS,
+        74 => GGML_OP_ADD_REL_POS,
+        75 => GGML_OP_RWKV_WKV6,
+        76 => GGML_OP_GATED_LINEAR_ATTN,
+        77 => GGML_OP_RWKV_WKV7,
+        78 => GGML_OP_UNARY,
+        79 => GGML_OP_MAP_CUSTOM1,
+        80 => GGML_OP_MAP_CUSTOM2,
+        81 => GGML_OP_MAP_CUSTOM3,
+        82 => GGML_OP_CUSTOM,
+        83 => GGML_OP_CROSS_ENTROPY_LOSS,
+        84 => GGML_OP_CROSS_ENTROPY_LOSS_BACK,
+        85 => GGML_OP_OPT_STEP_ADAMW,
+        86 => GGML_OP_GLU,
+        87 => GGML_OP_COUNT,
         _ => throw ArgumentError("Unknown value for ggml_op: $value"),
       };
 }
@@ -17564,9 +17665,10 @@ enum ggml_glu_op {
   GGML_GLU_OP_REGLU(0),
   GGML_GLU_OP_GEGLU(1),
   GGML_GLU_OP_SWIGLU(2),
-  GGML_GLU_OP_GEGLU_ERF(3),
-  GGML_GLU_OP_GEGLU_QUICK(4),
-  GGML_GLU_OP_COUNT(5);
+  GGML_GLU_OP_SWIGLU_OAI(3),
+  GGML_GLU_OP_GEGLU_ERF(4),
+  GGML_GLU_OP_GEGLU_QUICK(5),
+  GGML_GLU_OP_COUNT(6);
 
   final int value;
   const ggml_glu_op(this.value);
@@ -17575,9 +17677,10 @@ enum ggml_glu_op {
         0 => GGML_GLU_OP_REGLU,
         1 => GGML_GLU_OP_GEGLU,
         2 => GGML_GLU_OP_SWIGLU,
-        3 => GGML_GLU_OP_GEGLU_ERF,
-        4 => GGML_GLU_OP_GEGLU_QUICK,
-        5 => GGML_GLU_OP_COUNT,
+        3 => GGML_GLU_OP_SWIGLU_OAI,
+        4 => GGML_GLU_OP_GEGLU_ERF,
+        5 => GGML_GLU_OP_GEGLU_QUICK,
+        6 => GGML_GLU_OP_COUNT,
         _ => throw ArgumentError("Unknown value for ggml_glu_op: $value"),
       };
 }
@@ -18494,6 +18597,7 @@ enum llama_ftype {
   LLAMA_FTYPE_MOSTLY_BF16(32),
   LLAMA_FTYPE_MOSTLY_TQ1_0(36),
   LLAMA_FTYPE_MOSTLY_TQ2_0(37),
+  LLAMA_FTYPE_MOSTLY_MXFP4_MOE(38),
   LLAMA_FTYPE_GUESSED(1024);
 
   final int value;
@@ -18532,6 +18636,7 @@ enum llama_ftype {
         32 => LLAMA_FTYPE_MOSTLY_BF16,
         36 => LLAMA_FTYPE_MOSTLY_TQ1_0,
         37 => LLAMA_FTYPE_MOSTLY_TQ2_0,
+        38 => LLAMA_FTYPE_MOSTLY_MXFP4_MOE,
         1024 => LLAMA_FTYPE_GUESSED,
         _ => throw ArgumentError("Unknown value for llama_ftype: $value"),
       };
